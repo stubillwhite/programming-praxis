@@ -14,7 +14,6 @@
     [clojure.tools.namespace.repl :refer (refresh refresh-all)]
     [clojure.tools.trace :refer (trace-ns untrace-ns)]
     [programming-praxis.system :as system]
-    [programming-praxis.core :as core]
     [programming-praxis.20090219-rpn-calculator :as current])
   (:use
     [midje.repl]))
