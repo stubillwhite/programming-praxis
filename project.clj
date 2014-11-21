@@ -16,7 +16,7 @@
   :dependencies [
                   ;; Core
                   [org.clojure/clojure "1.6.0"]
-                  [org.clojure/core.async "0.1.319.0-6b1aca-alpha"]
+                  [org.clojure/math.numeric-tower "0.0.4"]
 
                   ;; Logging
                   [com.taoensso/timbre "3.3.1"]

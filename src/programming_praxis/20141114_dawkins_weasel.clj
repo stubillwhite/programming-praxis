@@ -2,6 +2,8 @@
   (:require
     [taoensso.timbre :as timbre]))
 
+(timbre/refer-timbre)
+
 ;; In his book The Blind Watchmaker, Richard Dawkins says:
 ;;
 ;;    I don’t know who it was first pointed out that, given enough time, a monkey bashing away at random on a typewriter
@@ -56,11 +58,11 @@
 
 (defn create-random-individual
   ([]
-    (for [x (range (count ideal))] (rand-nth genes))))
+    (repeatedly (count ideal) (fn [] (rand-nth genes)))))
 
 (defn create-population
   ([count]
-    (for [x (range count)] (create-random-individual))))
+    (repeatedly count (fn [] (create-random-individual)))))
 
 ;; Calculating fitness
 
