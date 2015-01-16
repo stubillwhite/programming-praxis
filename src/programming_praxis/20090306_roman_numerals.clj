@@ -29,7 +29,7 @@
 ;;     - If the digit is more than the maximum then add it to the sum
 ;;     - If the digit is less than the maximum then deduct it from the sum
 
-(def roman-digits
+(def from-roman-digits
   { \I 1
     \V 5
     \X 10
@@ -46,9 +46,47 @@
 
 (defn from-roman
   ([roman-number]
-    (let [ digits (reverse (map roman-digits (seq roman-number))) ]
+    (let [ digits (reverse (map from-roman-digits (seq roman-number))) ]
       (:sum
         (reduce
           accumulate-digits
           { :sum 0 :max-val 0 }
           digits)))))
+
+(def to-roman-digits
+  [ [1000 "M"]
+    [900  "CM"]
+    [500  "D"]
+    [400  "CD"]
+    [100  "C"]
+    [90   "XC"]
+    [50   "L"]
+    [40   "XL"]
+    [10   "X"]
+    [9    "IX"]
+    [5    "V"]
+    [4    "IV"]
+    [1    "I"] ])
+
+(defn first-val
+  ([x]
+    (first (drop-while (fn [[decimal-digit roman-digit]] (> decimal-digit x)) to-roman-digits))))
+
+(defn to-roman
+  ([decimal-number]
+    (loop [ decimal decimal-number
+            roman   nil ]
+      (let [[decimal-digit roman-digit] (first-val decimal)]
+        (if (= 0 decimal)
+          roman
+          (recur
+            (- decimal decimal-digit)
+            (str roman roman-digit)))))))
+
+(defn add-roman
+  ([a b]
+    (+ (from-roman a) (from-roman b))))
+
+(defn execute-solution
+  ([]
+    (to-roman (add-roman "CCCLXIX" "CDXLVIII"))))
