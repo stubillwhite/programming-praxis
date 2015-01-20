@@ -4,36 +4,75 @@
     [midje.sweet]
     [programming-praxis.20090306-roman-numerals]))
 
-(fact
-  "from-roman given single digit then returns decimal"
-  (from-roman "I") => 1
-  (from-roman "V") => 5
-  (from-roman "X") => 10
-  (from-roman "L") => 50
-  (from-roman "C") => 100
-  (from-roman "D") => 500
-  (from-roman "M") => 1000)
+(def single-digit-data
+  { "I" 1
+    "V" 5
+    "X" 10
+    "L" 50
+    "C" 100
+    "D" 500
+    "M" 1000 })
+
+(def additive-digit-data
+  { "VIII" 8
+    "XV"   15
+    "LXXX" 80
+    "CL"   150
+    "DCCC" 800
+    "MD"   1500 })
+
+(def subtractive-digit-data
+  { "IV"  4
+    "IX"  9 })
+
+(def sanity-check-data
+  { "MCMLIV"    1954
+    "MCMLXXXIV" 1984
+    "MCMXC"     1990
+    "MCMXCIX"   1999
+    "MMXIV"     2014 })
+
+(defn from-roman-gives-expected-decimal
+  ([[r d]]
+    (= (from-roman r) d)))
+
+(defn to-roman-gives-expected-decimal
+  ([[r d]]
+    (= (to-roman d) r)))
 
 (fact
-  "from-roman given additive digits then returns decimal"
-  (from-roman "VIII") => 8
-  (from-roman "XV")   => 15
-  (from-roman "LXXX") => 80
-  (from-roman "CL")   => 150
-  (from-roman "DCCC") => 800
-  (from-roman "MD")   => 1500)
+  "from-roman given single-digit-data then returns expected decimal"
+  (every? from-roman-gives-expected-decimal single-digit-data) => true)
 
 (fact
-  "from-roman given subtractive digits then returns decimal"
-  (from-roman "IIV") => 3
-  (from-roman "IV")  => 4
-  (from-roman "IIX") => 8
-  (from-roman "IX")  => 9)
+  "from-roman given additive-digit-data then returns expected decimal"
+  (every? from-roman-gives-expected-decimal additive-digit-data) => true)
 
 (fact
-  "from-roman given sanity check then returns decimal"
-  (from-roman "MCMLIV")    => 1954
-  (from-roman "MCMLXXXIV") => 1984
-  (from-roman "MCMXC")     => 1990
-  (from-roman "MCMXCIX")   => 1999
-  (from-roman "MMXIV")     => 2014)
+  "from-roman given subtractive-digit-data then returns expected decimal"
+  (every? from-roman-gives-expected-decimal subtractive-digit-data) => true)
+
+(fact
+  "from-roman given sanity-check-data then returns expected decimal"
+  (every? from-roman-gives-expected-decimal sanity-check-data) => true)
+
+(fact
+  "to-roman given single-digit-data then returns expected decimal"
+  (every? to-roman-gives-expected-decimal single-digit-data) => true)
+
+(fact
+  "to-roman given additive-digit-data then returns expected decimal"
+  (every? to-roman-gives-expected-decimal additive-digit-data) => true)
+
+(fact
+  "to-roman given subtractive-digit-data then returns expected decimal"
+  (every? to-roman-gives-expected-decimal subtractive-digit-data) => true)
+
+(fact
+  "to-roman given sanity-check-data then returns expected decimal"
+  (every? to-roman-gives-expected-decimal sanity-check-data) => true)
+
+(fact
+  "to-roman given subtractive form number then returns additive form"
+  (to-roman (from-roman "IIV")) => "III"
+  (to-roman (from-roman "IIX")) => "VIII")
