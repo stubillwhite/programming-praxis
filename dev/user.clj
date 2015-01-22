@@ -14,7 +14,7 @@
     [clojure.tools.namespace.repl :refer (refresh refresh-all)]
     [clojure.tools.trace :refer (trace-ns untrace-ns)]
     [programming-praxis.system :as system]
-    [programming-praxis.20090219-sieve-of-eratosthenes :as current])
+    [programming-praxis.20090227-mark-v-shaney :as current])
   (:use
     [midje.repl]))
 
