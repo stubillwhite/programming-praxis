@@ -55,7 +55,7 @@
 
 ;; Solution
 ;;
-;; This was pretty fun. I wanted to make the text a little more realistic, so I weighting the triples so more frequently
+;; This was pretty fun. I wanted to make the text a little more realistic, so I weight the triples so more frequently
 ;; occurring triples are more likely to be selected. Feeding in some Lovecraft as the initial text results in some
 ;; rather insane ravings.
 ;;
