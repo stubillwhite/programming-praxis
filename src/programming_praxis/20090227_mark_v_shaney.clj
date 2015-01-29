@@ -93,14 +93,19 @@
       {}
       (-> text (tokenise) (create-fragments)))))
 
+
+
 (defn random-transition
   ([{:keys [total] :as state-defn}]
-    (let  [ r (rand-int (inc total)) ]
+    (comment println state-defn)
+    (let  [ r (inc (rand-int total)) ]
       (loop [ running-total 0
               word-freqs    (seq (dissoc state-defn :total)) ]
+        (comment printf "\nr %d, running-total %s, word-freqs %s" r running-total (first word-freqs))
         (let [[word count] (first word-freqs)]
           (if (<= r (+ running-total count))
-            word
+            (do (comment println "=>" word)
+              word)
             (recur (+ running-total count) (rest word-freqs))))))))
 
 (defn next-word
