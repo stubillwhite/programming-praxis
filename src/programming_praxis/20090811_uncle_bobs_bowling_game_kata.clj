@@ -58,7 +58,7 @@
 
 (defn strike?
   ([rolls]
-    (= 10 (reduce + (take 1 rolls)))))
+    (= 10 (first rolls))))
 
 (defn score-game
   ([rolls]
