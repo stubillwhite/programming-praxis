@@ -93,8 +93,6 @@
       {}
       (-> text (tokenise) (create-fragments)))))
 
-
-
 (defn random-transition
   ([{:keys [total] :as state-defn}]
     (comment println state-defn)
