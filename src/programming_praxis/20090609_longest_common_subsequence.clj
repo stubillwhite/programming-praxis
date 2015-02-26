@@ -1,4 +1,4 @@
-(ns programming-praxis.20090606-longest-common-subsequence
+(ns programming-praxis.20090609-longest-common-subsequence
   (:require
     [taoensso.timbre :as timbre]))
 
