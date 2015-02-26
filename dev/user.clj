@@ -12,7 +12,7 @@
     [clojure.stacktrace :refer (print-stack-trace)]
     [clojure.test :as test]
     [clojure.tools.namespace.repl :refer (refresh refresh-all)]
-    [clojure.tools.trace :refer (trace-ns untrace-ns)]
+    [clojure.tools.trace :refer (trace-ns untrace-ns dotrace)]
     [programming-praxis.system :as system]
     [programming-praxis.20090227-mark-v-shaney :as current])
   (:use
