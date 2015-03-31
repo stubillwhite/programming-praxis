@@ -14,9 +14,7 @@
     [clojure.tools.namespace.repl :refer (refresh refresh-all)]
     [clojure.tools.trace :refer (trace-ns untrace-ns dotrace)]
     [programming-praxis.system :as system]
-    [programming-praxis.20090421-probabilistic-spell-checking :as current])
-  (:use
-    [midje.repl]))
+    [programming-praxis.20090421-probabilistic-spell-checking :as current]))
 
 (def system
   "A Var containing an object representing the application under development."

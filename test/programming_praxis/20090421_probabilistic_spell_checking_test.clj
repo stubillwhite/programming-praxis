@@ -1,7 +1,6 @@
 (ns programming-praxis.20090421-probabilistic-spell-checking-test
   (:use
-    [clojure.test]
-    [midje.sweet]
+    [expectations]
     [programming-praxis.20090421-probabilistic-spell-checking]))
 
 (defn bin-to-str
@@ -16,12 +15,12 @@
   ([m]
      (for [n (range m)] (fn [_] n))))
 
-(fact
-  "add-item then sets bits indicated by hash functions"
-  (let [ m  12 ]
-    (-> (bloom-filter m (linear-hash-functions m))
-      (add-item :foo)
-      (get-array-as-str))) =>  ["11111111" "00001111"])
+;; add-item then sets bits indicated by hash functions
+(expect
+  ["11111111" "00001111"]
+  (-> (bloom-filter 12 (linear-hash-functions 12))
+    (add-item :foo)
+    (get-array-as-str)))
 
 (defn salted-hash-functions
   ([m]
@@ -29,16 +28,14 @@
       (let [salt (char (+ 65 n))]
         (fn [x] (mod (hash (str salt x salt)) m))))))
 
-(fact
-  "contains-item? given item present then true"
-  (let [ m  12 ]
-    (-> (bloom-filter m (salted-hash-functions m))
-      (add-item :foo)
-      (contains-item? :foo)) => true))
+(expect
+  true
+  (-> (bloom-filter 12 (salted-hash-functions 12))
+    (add-item :foo)
+    (contains-item? :foo)))
 
-(fact
-  "contains-item? given item missing then false"
-  (let [ m  12 ]
-    (-> (bloom-filter m (salted-hash-functions m))
-      (add-item :foo)
-      (contains-item? :bar)) => false))
+(expect
+  false
+  (-> (bloom-filter 12 (salted-hash-functions 12))
+    (add-item :foo)
+    (contains-item? :bar)))

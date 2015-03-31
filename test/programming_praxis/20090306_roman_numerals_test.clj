@@ -1,7 +1,6 @@
 (ns programming-praxis.20090306-roman-numerals-test
   (:use
-    [clojure.test]
-    [midje.sweet]
+    [expectations]
     [programming-praxis.20090306-roman-numerals]))
 
 (def single-digit-data
@@ -40,39 +39,51 @@
   ([[r d]]
     (= (to-roman d) r)))
 
-(fact
-  "from-roman given single-digit-data then returns expected decimal"
-  (every? from-roman-gives-expected-decimal single-digit-data) => true)
+;; from-roman given single-digit-data then returns expected decimal
+(expect
+  true
+  (every? from-roman-gives-expected-decimal single-digit-data))
 
-(fact
-  "from-roman given additive-digit-data then returns expected decimal"
-  (every? from-roman-gives-expected-decimal additive-digit-data) => true)
+;; from-roman given additive-digit-data then returns expected decimal
+(expect
+  true
+  (every? from-roman-gives-expected-decimal additive-digit-data))
 
-(fact
-  "from-roman given subtractive-digit-data then returns expected decimal"
-  (every? from-roman-gives-expected-decimal subtractive-digit-data) => true)
+;; from-roman given subtractive-digit-data then returns expected decimal
+(expect
+  true
+  (every? from-roman-gives-expected-decimal subtractive-digit-data))
 
-(fact
-  "from-roman given sanity-check-data then returns expected decimal"
-  (every? from-roman-gives-expected-decimal sanity-check-data) => true)
+;; from-roman given sanity-check-data then returns expected decimal
+(expect
+  true
+  (every? from-roman-gives-expected-decimal sanity-check-data))
 
-(fact
-  "to-roman given single-digit-data then returns expected decimal"
-  (every? to-roman-gives-expected-decimal single-digit-data) => true)
+;; to-roman given single-digit-data then returns expected decimal
+(expect
+  true
+  (every? to-roman-gives-expected-decimal single-digit-data))
 
-(fact
-  "to-roman given additive-digit-data then returns expected decimal"
-  (every? to-roman-gives-expected-decimal additive-digit-data) => true)
+;; to-roman given additive-digit-data then returns expected decimal
+(expect
+  true
+  (every? to-roman-gives-expected-decimal additive-digit-data))
 
-(fact
-  "to-roman given subtractive-digit-data then returns expected decimal"
-  (every? to-roman-gives-expected-decimal subtractive-digit-data) => true)
+;; to-roman given subtractive-digit-data then returns expected decimal
+(expect
+  true
+  (every? to-roman-gives-expected-decimal subtractive-digit-data))
 
-(fact
-  "to-roman given sanity-check-data then returns expected decimal"
-  (every? to-roman-gives-expected-decimal sanity-check-data) => true)
+;; to-roman given sanity-check-data then returns expected decimal
+(expect
+  true
+  (every? to-roman-gives-expected-decimal sanity-check-data))
 
-(fact
-  "to-roman given subtractive form number then returns additive form"
-  (to-roman (from-roman "IIV")) => "III"
-  (to-roman (from-roman "IIX")) => "VIII")
+;; to-roman given subtractive form number then returns additive form
+(expect
+  "III"
+  (to-roman (from-roman "IIV")))
+
+(expect
+  "VIII"
+  (to-roman (from-roman "IIX")))

@@ -1,7 +1,6 @@
 (ns programming-praxis.20090219-rpn-calculator-test
   (:use
-    [clojure.test]
-    [midje.sweet]
+    [expectations]
     [programming-praxis.20090219-rpn-calculator]))
 
 (defn calculate-result-and-capture-stdout
@@ -9,18 +8,18 @@
     (with-out-str
       (calculate-result (create-calculator) expr))))
 
-(fact
-  "calculate-result given test expression then prints test result"
-  (calculate-result-and-capture-stdout "19 2.14 + 4.5 2 4.3 / - * \n") => "85.2974")
+(expect
+  "85.2974"
+  (calculate-result-and-capture-stdout "19 2.14 + 4.5 2 4.3 / - * \n"))
 
-(fact
-  "calculate-result given newline and unevaluated operands then prints top operand"
-  (calculate-result-and-capture-stdout "2 3 \n") => "3.0000")
+(expect
+  "3.0000"
+  (calculate-result-and-capture-stdout "2 3 \n"))
 
-(fact
-  "calculate-result given newline and evaluated operands then prints top operand"
-  (calculate-result-and-capture-stdout "2 3 + \n") => "5.0000")
+(expect
+  "5.0000"
+  (calculate-result-and-capture-stdout "2 3 + \n"))
 
-(fact
-  "calculate-result given newline and no operands then prints null"
-  (calculate-result-and-capture-stdout "\n") => "null")
+(expect
+  "null"
+  (calculate-result-and-capture-stdout "\n"))

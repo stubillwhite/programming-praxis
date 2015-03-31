@@ -1,19 +1,19 @@
 (ns programming-praxis.20120127-anagram-phrases-test
   (:use
-    [clojure.test]
-    [midje.sweet]
+    [expectations]
     [programming-praxis.20120127-anagram-phrases]))
 
-(fact
-  "permutations given single item then single item"
-  (permutations [1]) => [ [1] ])
+;; permutations given single item then single item
+(expect [ [1] ] (permutations [1]))
 
-(fact
-  "permutations given unique items then all permutations"
-  (permutations [1 2 3]) => [ [1 2 3] [1 3 2]
-                              [2 1 3] [2 3 1]
-                              [3 1 2] [3 2 1] ])
+;; permutations given unique items then all permutations
+(expect
+  [ [1 2 3] [1 3 2]
+    [2 1 3] [2 3 1]
+    [3 1 2] [3 2 1] ]
+  (permutations [1 2 3]))
 
-(fact
-  "permutations given duplicate items then all permutations"
-  (permutations [1 2 2]) => [ [1 2 2] [2 1 2] [2 2 1] ])
+;; permutations given duplicate items then all permutations
+(expect
+  [ [1 2 2] [2 1 2] [2 2 1] ]
+  (permutations [1 2 2]))

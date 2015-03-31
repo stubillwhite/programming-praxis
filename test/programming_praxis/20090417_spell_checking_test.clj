@@ -1,7 +1,6 @@
 (ns programming-praxis.20090417-spell-checking-test
   (:use
-    [clojure.test]
-    [midje.sweet]
+    [expectations]
     [programming-praxis.20090417-spell-checking]))
 
 (def test-trie
@@ -11,29 +10,24 @@
     (add-to-trie (seq "dog"))
     (add-to-trie (seq "dogs"))))
 
-(fact
-  "trie-contains? given added to trie then true"
-  (trie-contains? test-trie (seq "cat")) => true
-  (trie-contains? test-trie (seq "cart")) => true
-  (trie-contains? test-trie (seq "dog")) => true
-  )
+;; trie-contains? given added to trie then true
+(expect true (trie-contains? test-trie (seq "cat")))
+(expect true (trie-contains? test-trie (seq "cart")))
+(expect true (trie-contains? test-trie (seq "dog")))
 
-(fact
-  "trie-contains? given not added to trie then false"
-  (trie-contains? test-trie (seq "car")) => false
-  (trie-contains? test-trie (seq "do")) => false
-  (trie-contains? test-trie (seq "cats")) => false
-  (trie-contains? (trie) (seq "car")) => false)
+;; trie-contains? given not added to trie then false
+(expect false (trie-contains? test-trie (seq "car")))
+(expect false (trie-contains? test-trie (seq "do")))
+(expect false (trie-contains? test-trie (seq "cats")))
+(expect false (trie-contains? (trie) (seq "car")))
 
 (def test-spell-checker
   (spell-checker "this is a test string of words"))
 
-(fact
-  "spelled-correctly? given word in corpus then true"
-  (spelled-correctly? test-spell-checker "this") => true
-  (spelled-correctly? test-spell-checker "string") => true)
+;; spelled-correctly? given word in corpus then true
+(expect true (spelled-correctly? test-spell-checker "this"))
+(expect true (spelled-correctly? test-spell-checker "string"))
 
-(fact
-  "spelled-correctly? given word not in corpus then false"
-  (spelled-correctly? test-spell-checker "thi") => false
-  (spelled-correctly? test-spell-checker "off") => false)
+;; spelled-correctly? given word not in corpus then false
+(expect false (spelled-correctly? test-spell-checker "thi")) 
+(expect false (spelled-correctly? test-spell-checker "off"))

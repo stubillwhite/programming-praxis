@@ -15,7 +15,7 @@
 ;; Clojure has the fantastic clojure.math.combinatorics/permutations for generating permutations, but that seems like
 ;; cheating so let's do this from first principles.
 ;;
-;; I started looking into how to do this lazily, and came across lexicographic permutations. There's a very clear
+;; I started looking into how to do this lazily and came across lexicographic permutations. There's a very clear
 ;; example here: http://www.nayuki.io/page/next-lexicographical-permutation-algorithm
 ;;
 ;;     Initial sequence                                       0  1  2   5  3  3  0
@@ -26,14 +26,14 @@
 ;;     Reverse the suffix                                     0  1  3  [0  2  3  5]
 ;;     Done                                                   0  1  3   0  2  3  5 
 
-(defn suffix-index
+(defn- suffix-index
   ([sequence]
     (loop [i (dec (count sequence))]
       (if (or (= i 0) (< (nth sequence (dec i)) (nth sequence i)))
         i
         (recur (dec i))))))
 
-(defn successor-index
+(defn- successor-index
   ([pivot-index suffix-index sequence]
     (let [ pivot (nth sequence pivot-index)
            succ  (->> (drop suffix-index sequence)
@@ -44,20 +44,20 @@
           i
           (recur (dec i)))))))
 
-(defn swap
+(defn- swap
   ([sequence a b]
     (let [s (vec sequence)]
       (assoc s
         a (s b)
         b (s a)))))
 
-(defn sort-suffix
+(defn- sort-suffix
   ([sequence n]
     (concat
       (take n sequence)
       (sort (drop n sequence)))))
 
-(defn next-permutation
+(defn- next-permutation
   ([sequence]
     (let [suffix-index (suffix-index sequence)]
       (when (not (zero? suffix-index))

@@ -54,23 +54,25 @@
 ;; Solution
 ;;
 ;; I've done ELO calculations before and this looked like fun. We can represent the tournament as a tree, in which case
-;; the evaluation of the brackets is just a depth-first walk.
+;; the evaluation of the brackets is just a depth-first walk. The code ends up being quite clean, I think, but it isn't
+;; particularly fast. Simulating a million games takes just under a minute on my laptop. We do calculate the new rating
+;; of the loser which isn't strictly necessary for the solution, but I think it's the right thing to do.
 
-(defn- participant
+(defn participant
   ([name rating]
     { :name   name
       :rating rating }))
 
 (defn- winning-expectation
-  ([a b k g]
+  ([a b]
     (let [ rating-a (double (:rating a))
            rating-b (double (:rating b)) ]
       (/ 1 (+ 1 (Math/pow 10.0 (/ (- rating-b rating-a) 400)))))))
 
-(defn- new-rating
+(defn new-rating
   ([a b w k g]
     (let [ rating-a    (:rating a)
-           winning-exp (winning-expectation a b k g) ]
+           winning-exp (winning-expectation a b) ]
       (+ rating-a (* k g (- w winning-exp))))))
 
 (def participants
@@ -115,7 +117,7 @@
 
 (defn- summarise-result
   ([a b winner loser]
-    (printf "%-20s vs     %-20s : %s eliminates %s \n"
+    (format "%-20s vs     %-20s : %s eliminates %s"
       (summarise-participant a)
       (summarise-participant b)
       (summarise-participant winner)
@@ -124,22 +126,27 @@
 (defn- simulate-match
   ([[a b]]
     (let [ r          (rand)
-           p          (winning-expectation a b 60 1)
+           p          (winning-expectation a b)
            winner     (if (< r p) a b)
            loser      (if (= winner a) b a)
            new-winner (assoc-in winner [:rating] (new-rating winner loser 1 60 1))
            new-loser  (assoc-in loser  [:rating] (new-rating loser winner 0 60 1)) ]
-      (summarise-result a b new-winner new-loser)
+      (println r p)
+      (info (summarise-result a b new-winner new-loser))
       new-winner)))
 
 (defn simulate-tournament
   ([tournament]
     (let [ participants     (:participants tournament)
            simulate-bracket (fn [x] (if (keyword? x) (get participants x) (simulate-match x))) ]
-      (println "Winner: "
-        (summarise-participant
-          (clojure.walk/postwalk simulate-bracket (:brackets tournament)))))))
+      (clojure.walk/postwalk simulate-bracket (:brackets tournament)))))
 
-;(simulate-tournament tournament)
+(defn execute-solution
+  ([]
+    (clojure.pprint/pprint
+      (reduce
+        (fn [acc {:keys [name rating]}] (update-in acc [name] (fnil inc 0)))
+        {}
+        (for [i (range 1000000)] (simulate-tournament tournament))))))
 
 

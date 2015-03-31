@@ -1,7 +1,6 @@
 (ns programming-praxis.20090227-mark-v-shaney-test
   (:use
-    [clojure.test]
-    [midje.sweet]
+    [expectations]
     [programming-praxis.20090227-mark-v-shaney]))
 
 (defn execute-text-generator
@@ -16,16 +15,17 @@
       {}
       texts)))
 
-(defn close?
-  ([x y]
-    (< (Math/abs (- x y)) (* 0.1 x))))
+(defn approximately
+  ([x]
+    (fn [y] (< (Math/abs (- x y)) (* 0.1 x)))))
 
-(fact
-  "generate-text returns text matching corpus frequencies."
-  (let [ text    "One two three. One two three. One two three. One two four. "
-         results (count-texts (take 1000 (repeatedly #(execute-text-generator text 3)))) ]
-    (close? (get results "One two three.") 750) => true
-    (close? (get results "One two four.")  250) => true))
+;; generate-text returns text matching corpus frequencies.
+(expect-let [ text         "One two three. One two three. One two three. One two four. "
+              example-text (take 1000 (repeatedly #(execute-text-generator text 3))) ]
+  (more->
+    (approximately 750) (get "One two three.")
+    (approximately 250) (get "One two four."))
+  (count-texts example-text))
 
 
 
